@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>喝水提醒器｜SXH Studio</title>
+<style>
+body{min-height:100vh;margin:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#74b9ff,#a29bfe);font-family:system-ui;padding:20px}
+.card{background:white;border-radius:24px;padding:36px;width:100%;max-width:520px;text-align:center;box-shadow:0 4px 20px #0002}
+.drop{font-size:70px}h1{color:#084866}
+select,button{width:100%;padding:12px;margin:8px 0;border-radius:10px;font-size:16px}
+button{border:0}.start{background:#23ad5c;color:white}.pause{background:#718096;color:white}.drink{background:#3182ce;color:white}.reset{background:#dd4444;color:white}
+.time{font-size:48px;margin:20px}
+footer{margin-top:20px;color:#666}
+</style>
+</head>
+<body>
+<div class="card">
+<div class="drop">💧</div>
+<h1>喝水提醒器</h1>
+<p id="status">待机</p>
+<select id="interval">
+<option value="60">1分钟</option>
+<option value="300">5分钟</option>
+<option value="900">15分钟</option>
+<option value="1800">30分钟</option>
+<option value="3600">60分钟</option>
+</select>
+<div class="time" id="time">--:--</div>
+<p>今日喝水杯数：<span id="cups">0</span></p>
+<button class="start" onclick="start()">开始</button>
+<button class="pause" onclick="pause()">暂停</button>
+<button class="drink" onclick="drink()">记录一杯</button>
+<button class="reset" onclick="reset()">清空统计</button>
+<footer>Created by SXH Studio</footer>
+</div>
+<script>
+let timer=null,left=0;
+let key="waterCup_"+new Date().toISOString().slice(0,10);
+let cups=Number(localStorage.getItem(key)||0);
+cupsEl=document.getElementById("cups");cupsEl.innerHTML=cups;
+function start(){let t=Number(interval.value);if(!timer){if(left<=0)left=t;status.innerHTML="计时运行中";timer=setInterval(()=>{left--;show();if(left<=0){alert("💧该喝水啦！");left=t}},1000)}}
+function pause(){clearInterval(timer);timer=null;status.innerHTML="已经暂停"}
+function show(){time.innerHTML=Math.floor(left/60).toString().padStart(2,"0")+":"+String(left%60).padStart(2,"0")}
+function drink(){cups++;localStorage.setItem(key,cups);cupsEl.innerHTML=cups}
+function reset(){cups=0;localStorage.setItem(key,cups);cupsEl.innerHTML=cups}
+</script>
+</body>
+</html>
