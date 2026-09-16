@@ -1,0 +1,9 @@
+{
+"name":"喝水提醒器",
+"short_name":"喝水提醒",
+"start_url":"./index.html",
+"display":"standalone",
+"background_color":"#ffffff",
+"theme_color":"#2196f3",
+"lang":"zh-CN"
+}
